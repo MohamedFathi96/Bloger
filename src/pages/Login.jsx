@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import facebook from "../assets/facebook.png";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
+import { useAuthContext } from "../context/AuthContext";
+import { Alert } from "@mui/material";
+import Grow from "@mui/material/Grow";
+
 import "../css/login.css";
 
 const Login = () => {
@@ -20,27 +24,55 @@ const FormHeader = (props) => <h2 id="headerTitle">{props.title}</h2>;
 
 const Form = (props) => {
   const navigate = useNavigate();
+  const { logIn } = useAuthContext();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const [alertErr, setAlertErr] = useState(false);
+  async function handleLogin() {
+    try {
+      await logIn(emailRef.current.value, passwordRef.current.value);
+      navigate("/");
+    } catch (error) {
+      setAlertErr(true);
+      console.log(error.message);
+    }
+  }
   return (
     <div>
       <FormInput
         description="Email"
         placeholder="Enter your email"
         type="text"
+        elemref={emailRef}
       />
       <FormInput
         description="Password"
         placeholder="Enter your password"
         type="password"
+        elemref={passwordRef}
       />
       <div>
-        <FormButton title="Log In" />
+        <FormButton clickFunc={handleLogin} type="submit" title="Log In" />
       </div>
-      <div
-        onClick={() => {
-          navigate("/signup");
-        }}
-      >
-        <FormButton title="Sign UP" />
+      <div>
+        <FormButton
+          type="button"
+          clickFunc={() => {
+            navigate("/signup");
+          }}
+          title="Sign UP"
+        />
+      </div>
+      <div className={`mt-2 px-2 ${alertErr ? "block" : "hidden"}`}>
+        <Grow
+          in={alertErr}
+          style={{ transformOrigin: "0 0 0" }}
+          {...(alertErr ? { timeout: 1000 } : {})}
+        >
+          <Alert variant="filled" severity="error">
+            Sorry Couldn't Log In try again!!!
+          </Alert>
+        </Grow>
       </div>
     </div>
   );
@@ -48,14 +80,20 @@ const Form = (props) => {
 
 const FormButton = (props) => (
   <div id="button" className="row">
-    <button>{props.title}</button>
+    <button onClick={props.clickFunc} type={props.type}>
+      {props.title}
+    </button>
   </div>
 );
 
 const FormInput = (props) => (
   <div className="row">
     <label>{props.description}</label>
-    <input type={props.type} placeholder={props.placeholder} />
+    <input
+      ref={props.elemref}
+      type={props.type}
+      placeholder={props.placeholder}
+    />
   </div>
 );
 const OtherMethods = (props) => (

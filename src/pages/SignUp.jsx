@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,16 +11,44 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { Alert } from "@mui/material";
+import Grow from "@mui/material/Grow";
+
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const { signUp, currentUser } = useAuthContext();
+  const [passwordErr, setPasswordErr] = useState(false);
+  const [emailErr, setemailErr] = useState(false);
+  const [alertErr, setAlertErr] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setPasswordErr(false);
+    setemailErr(false);
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      firstName: data.get("firstName"),
-    });
+    const emailRegExp =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (data.get("password") !== data.get("passwordConfirm")) {
+      setPasswordErr(true);
+      return;
+    } else if (!emailRegExp.test(data.get("email"))) {
+      setemailErr(true);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await signUp(data.get("email"), data.get("password"));
+      navigate("/");
+    } catch (error) {
+      setAlertErr(true);
+    }
+    setLoading(false);
   };
 
   return (
@@ -79,6 +107,8 @@ export default function SignUp() {
                   <TextField
                     required
                     fullWidth
+                    error={emailErr}
+                    helperText={emailErr ? "Enter a valid Email address" : ""}
                     id="email"
                     label="Email Address"
                     name="email"
@@ -95,6 +125,7 @@ export default function SignUp() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
+                    error={passwordErr}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -105,6 +136,8 @@ export default function SignUp() {
                     label="Confirm Password"
                     type="password"
                     id="password2"
+                    error={passwordErr}
+                    helperText={passwordErr ? "Passwords don't match" : ""}
                     autoComplete="new-password"
                   />
                 </Grid>
@@ -113,21 +146,32 @@ export default function SignUp() {
                     control={
                       <Checkbox value="allowExtraEmails" color="primary" />
                     }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
+                    label="I want to receive inspiration, ideas related to my blogs."
                   />
                 </Grid>
               </Grid>
               <Button
                 type="submit"
+                disabled={loading}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign Up
               </Button>
+              <Grow
+                in={alertErr}
+                style={{ transformOrigin: "0 0 0" }}
+                {...(alertErr ? { timeout: 1000 } : {})}
+              >
+                <Alert variant="filled" severity="error">
+                  Sorry Couldn't Sign Up try again!!!
+                </Alert>
+              </Grow>
+
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2">
+                  <Link href="/login" variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
