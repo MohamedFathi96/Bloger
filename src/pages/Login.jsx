@@ -23,8 +23,8 @@ const Form = (props) => {
   return (
     <div>
       <FormInput
-        description="Username"
-        placeholder="Enter your username"
+        description="Email"
+        placeholder="Enter your email"
         type="text"
       />
       <FormInput
