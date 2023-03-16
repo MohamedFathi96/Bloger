@@ -16,13 +16,15 @@ import Grow from "@mui/material/Grow";
 
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
 
 export default function SignUp() {
-  const { signUp, currentUser } = useAuthContext();
+  const { signUp } = useAuthContext();
   const [passwordErr, setPasswordErr] = useState(false);
   const [emailErr, setemailErr] = useState(false);
   const [alertErr, setAlertErr] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [emailExist, setEmailExist] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -33,6 +35,7 @@ export default function SignUp() {
     const emailRegExp =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+    // Email Checking
     if (data.get("password") !== data.get("passwordConfirm")) {
       setPasswordErr(true);
       return;
@@ -43,9 +46,15 @@ export default function SignUp() {
 
     try {
       setLoading(true);
-      await signUp(data.get("email"), data.get("password"));
+      const { user } = await signUp(data.get("email"), data.get("password"));
+      await updateProfile(user, {
+        displayName: `${data.get("firstName")} ${data.get("lastName")}`,
+      });
       navigate("/");
     } catch (error) {
+      if (error.code.indexOf("use") > 1) {
+        setEmailExist(true);
+      }
       setAlertErr(true);
     }
     setLoading(false);
@@ -165,7 +174,9 @@ export default function SignUp() {
                 {...(alertErr ? { timeout: 1000 } : {})}
               >
                 <Alert variant="filled" severity="error">
-                  Sorry Couldn't Sign Up try again!!!
+                  {emailExist
+                    ? "Email already in use try another one"
+                    : "Sorry Couldn't Sign Up try again!!!"}
                 </Alert>
               </Grow>
 

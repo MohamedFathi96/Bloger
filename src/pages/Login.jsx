@@ -34,7 +34,6 @@ const Form = (props) => {
       navigate("/");
     } catch (error) {
       setAlertErr(true);
-      console.log(error.message);
     }
   }
   return (

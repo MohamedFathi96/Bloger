@@ -11,6 +11,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setcurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState("dark");
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -18,10 +19,13 @@ export const AuthProvider = ({ children }) => {
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
+
   const value = {
     currentUser,
     signUp,
     logIn,
+    mode,
+    setMode,
   };
 
   useEffect(() => {
