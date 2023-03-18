@@ -17,6 +17,22 @@ code {
   width: 10px;
 }
 
+div:has(> .active) {
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+#canvas1 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /* z-index: 100; */
+}
+.up {
+  position: relative;
+  z-index: 10;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: #e0e0e0;
