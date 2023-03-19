@@ -24,26 +24,32 @@ const SideBar = () => {
     });
   };
   return (
-    <div className="fixed py-5 pb-9 w-56 left-0 top-0 border-r-gray-700 right-shadow h-screen dark:text-white dark:bg-main-dark-bg flex flex-col items-center">
+    <div className="fixed transition-all py-5 pb-9 w-0 md:w-56 left-0 top-0 border-r-gray-700 right-shadow h-screen dark:text-white dark:bg-main-dark-bg flex flex-col items-center">
       {/* -------------------First Element-------------------  */}
       <div className="text-center flex flex-col items-center">
         <div>
           <BsPersonCircle style={{ fontSize: "4rem" }} />
         </div>
-        <p className="my-2">{currentUser && currentUser.displayName}</p>
-        <Tooltip title="Edit Profile">
-          <button className="text-gray-400 mb-4 py-0.5 px-5 border rounded-xl border-white">
-            Edit
-          </button>
-        </Tooltip>
-        <Tooltip title="Log Out">
-          <button
-            onClick={logOut}
-            className="text-gray-400 py-0.5 px-5 border rounded-xl border-white"
-          >
-            Sign Out
-          </button>
-        </Tooltip>
+        <p className="my-2">
+          {currentUser ? currentUser.displayName : "Welocome, Guest"}
+        </p>
+        {currentUser && (
+          <>
+            <Tooltip title="Edit Profile">
+              <button className="text-gray-400 mb-4 py-0.5 px-5 border rounded-xl border-white">
+                Edit
+              </button>
+            </Tooltip>
+            <Tooltip title="Log Out">
+              <button
+                onClick={logOut}
+                className="text-gray-400 py-0.5 px-5 border rounded-xl border-white"
+              >
+                Sign Out
+              </button>
+            </Tooltip>
+          </>
+        )}
       </div>
       {/* -------------------Second Element-------------------  */}
       <div className="flex flex-col gap-3 mt-auto">

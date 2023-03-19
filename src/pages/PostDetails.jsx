@@ -21,8 +21,8 @@ const PostDetails = () => {
     });
   }
   return (
-    <div className="ml-56 dark:bg-main-dark-bg dark:text-white min-h-screen pb-4 px-20 flex">
-      <div className="flex flex-col gap-6 basis-2/3">
+    <div className="md:ml-56 dark:bg-main-dark-bg dark:text-white min-h-screen pb-4 px-20 flex gap-5 flex-wrap lg:flex-nowrap justify-center">
+      <div className="flex flex-col gap-6 lg:basis-2/3">
         <div className="max-w-lg">
           <img className="rounded-xl" src={post.img} alt="post" />
         </div>
@@ -54,12 +54,14 @@ const PostDetails = () => {
         <p style={{ maxWidth: "80ch" }}>{post.description}</p>
       </div>
 
-      <div className="basis-1/3 flex flex-col gap-4">
+      <div className="basis-full lg:basis-1/3 ">
         <h2 className="capitalize font-semibold text-2xl">
           other posts you may like
         </h2>
-        <SecondaryPost data={post} />
-        <SecondaryPost data={post} />
+        <div className="flex lg:flex-col mt-5 gap-4">
+          <SecondaryPost data={post} />
+          <SecondaryPost data={post} />
+        </div>
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ const WritePost = () => {
   };
 
   return (
-    <div className="ml-56 flex pt-14 gap-9 min-h-screen dark:bg-main-dark-bg dark:text-white px-20">
+    <div className="md:ml-56 flex pt-14 gap-9 min-h-screen dark:bg-main-dark-bg dark:text-white px-20">
       <form onSubmit={submitPost} id="postForm" className="basis-2/3 ">
         <input
           type="text"

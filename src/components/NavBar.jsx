@@ -3,6 +3,8 @@ import Tooltip from "@mui/material/Tooltip";
 import { BsSearchHeart, BsPatchPlus } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useDatabaseContext } from "../context/DatabaseContext";
+import StarPurple500Icon from "@mui/icons-material/StarPurple500";
+import BadgeIcon from "@mui/icons-material/Badge";
 import { getDocs, where, query } from "firebase/firestore";
 import { useAuthContext } from "../context/AuthContext";
 
@@ -30,13 +32,13 @@ const NavBar = () => {
   // }
 
   return (
-    <div className="pb-12 ml-56 flex justify-between py-6 px-8 gap-10 dark:bg-main-dark-bg items-center dark:text-white">
+    <div className="pb-12 md:ml-56 flex justify-between py-6 px-8 gap-10 dark:bg-main-dark-bg items-center dark:text-white">
       <h1
         style={{ fontFamily: '"Aladin", cursive' }}
         className="text-3xl italic"
       >
         <Tooltip title="Home">
-          <Link to="/">Blog Club</Link>
+          <Link to="/">Blog&nbsp;Club</Link>
         </Tooltip>
       </h1>
       <div className="flex items-center focus-within:flex-1 transition-all duration-300 up">
@@ -57,19 +59,32 @@ const NavBar = () => {
             </button>
           </Tooltip>
         )}
-        <Tooltip title="New Post">
-          <button className="up">
-            <Link state={null} to="/write">
-              <BsPatchPlus
-                style={{
-                  fontSize: "1.8rem",
-                  verticalAlign: "middle",
-                  display: "inline-block",
-                }}
-              />
-            </Link>
-          </button>
-        </Tooltip>
+
+        <div className="flex gap-2">
+          <Tooltip title="My Posts">
+            <button>
+              <BadgeIcon sx={{ fontSize: "1.8rem" }} />
+            </button>
+          </Tooltip>
+          <Tooltip title="Favorites">
+            <button>
+              <StarPurple500Icon sx={{ fontSize: "2.1rem" }} />
+            </button>
+          </Tooltip>
+          <Tooltip title="New Post">
+            <button className="up">
+              <Link state={null} to="/write">
+                <BsPatchPlus
+                  style={{
+                    fontSize: "1.8rem",
+                    verticalAlign: "middle",
+                    display: "inline-block",
+                  }}
+                />
+              </Link>
+            </button>
+          </Tooltip>
+        </div>
       </div>
     </div>
   );
