@@ -18,7 +18,7 @@ code {
 }
 
 div:has(> .active) {
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+  background-color: #20434f;
 }
 #canvas1 {
   position: fixed;
@@ -31,6 +31,9 @@ div:has(> .active) {
 .up {
   position: relative;
   z-index: 10;
+}
+.right-shadow {
+  box-shadow: 3px 0 15px rgb(80, 68, 68);
 }
 
 /* Track */

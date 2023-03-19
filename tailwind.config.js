@@ -8,7 +8,7 @@ module.exports = {
       },
       backgroundColor: {
         "main-bg": "#FAFBFB",
-        "main-dark-bg": "#20232A",
+        "main-dark-bg": "#0f172a",
         "secondary-dark-bg": "#33373E",
         "accent-yellow": "#fff37a",
         "accent-gray": "#dcdcdc",

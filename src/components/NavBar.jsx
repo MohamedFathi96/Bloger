@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { BsSearchHeart, BsPatchPlus } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useDatabaseContext } from "../context/DatabaseContext";
+import { getDocs, where, query } from "firebase/firestore";
+import { useAuthContext } from "../context/AuthContext";
 
 const NavBar = () => {
+  const { searchValue, setsearchValue } = useDatabaseContext();
+  const { currentUser } = useAuthContext();
+
+  // function searchPosts(e) {
+  //   setsearchValue(e.target.value);
+  //   const postQuery = query(postsRef, where("title", "==", e.target.value));
+  //   getDocs(postQuery)
+  //     .then((snapshot) => {
+  //       snapshot.docs.map((doc) => {
+  //         const newPost = {
+  //           id: doc.id,
+  //           ...doc.data(),
+  //         };
+  //         setposts((prev) => [...prev, newPost]);
+  //         console.log("asdf");
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
   return (
     <div className="pb-12 ml-56 flex justify-between py-6 px-8 gap-10 dark:bg-main-dark-bg items-center dark:text-white">
       <h1
@@ -20,17 +45,21 @@ const NavBar = () => {
           className="px-3 outline-none grow dark:bg-main-dark-bg"
           placeholder="Search Something..."
           type="text"
+          value={searchValue}
+          onChange={(e) => setsearchValue(e.target.value)}
         />
       </div>
       <div>
-        <Tooltip title="Sign In Or Create An Account">
-          <button className="px-3 py-2 bg-accent-yellow rounded-lg mr-4 text-black">
-            <Link to="/login">Sign In</Link>
-          </button>
-        </Tooltip>
+        {!currentUser && (
+          <Tooltip title="Sign In Or Create An Account">
+            <button className="px-3 py-2 bg-accent-yellow rounded-lg mr-4 text-black">
+              <Link to="/login">Sign In</Link>
+            </button>
+          </Tooltip>
+        )}
         <Tooltip title="New Post">
           <button className="up">
-            <Link to="/write">
+            <Link state={null} to="/write">
               <BsPatchPlus
                 style={{
                   fontSize: "1.8rem",

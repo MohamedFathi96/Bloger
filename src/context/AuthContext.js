@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -19,11 +20,15 @@ export const AuthProvider = ({ children }) => {
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
+  function logOut() {
+    return signOut(auth);
+  }
 
   const value = {
     currentUser,
     signUp,
     logIn,
+    logOut,
     mode,
     setMode,
   };

@@ -36,7 +36,11 @@ export default function SignUp() {
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     // Email Checking
-    if (data.get("password") !== data.get("passwordConfirm")) {
+    if (
+      data.get("password") !== data.get("passwordConfirm") ||
+      data.get("password").length < 6
+    ) {
+      console.log("sfd");
       setPasswordErr(true);
       return;
     } else if (!emailRegExp.test(data.get("email"))) {
@@ -50,7 +54,11 @@ export default function SignUp() {
       await updateProfile(user, {
         displayName: `${data.get("firstName")} ${data.get("lastName")}`,
       });
-      navigate("/");
+      const state = {
+        title: "Welcome, to the club",
+        severity: "success",
+      };
+      navigate("/", { state });
     } catch (error) {
       if (error.code.indexOf("use") > 1) {
         setEmailExist(true);
@@ -146,7 +154,9 @@ export default function SignUp() {
                     type="password"
                     id="password2"
                     error={passwordErr}
-                    helperText={passwordErr ? "Passwords don't match" : ""}
+                    helperText={
+                      passwordErr ? "Passwords don't match or too short" : ""
+                    }
                     autoComplete="new-password"
                   />
                 </Grid>

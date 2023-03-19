@@ -8,44 +8,40 @@ import { useDatabaseContext } from "../context/DatabaseContext";
 const WritePost = () => {
   const navigate = useNavigate();
   const { database, postsRef } = useDatabaseContext();
-  const location = useLocation();
-  const titleRef = useRef();
-  const [description, setdescription] = useState("");
-  const [buttonText, setbuttonText] = useState("Post");
-
-  useEffect(() => {
-    if (!location.state) return;
-    const post = location.state;
-    titleRef.current.value = post.title;
-    setdescription(post.description);
-    setbuttonText("Update");
-  }, []);
+  const oldPost = useLocation().state;
+  const descriptionRef = useRef();
 
   const submitPost = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (!location.state) {
+    if (!oldPost) {
       addDoc(postsRef, {
         title: data.get("title"),
-        description: data.get("description"),
+        description: descriptionRef.current,
         category: data.get("category"),
         img: "https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       })
         .then((params) => {
-          const state = { success: true };
+          const state = {
+            title: "Your post has been created",
+            severity: "success",
+          };
           navigate("/", { state });
         })
         .catch(() => {});
     } else {
-      const oldPost = location.state;
       const docRef = doc(database, "Posts", oldPost.id);
       updateDoc(docRef, {
         title: data.get("title"),
-        description: data.get("description"),
+        description: descriptionRef.current,
         category: data.get("category"),
         img: "https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       }).then(() => {
-        navigate("/");
+        const state = {
+          title: "Your post has been updated",
+          severity: "success",
+        };
+        navigate("/", { state });
       });
     }
   };
@@ -56,7 +52,7 @@ const WritePost = () => {
         <input
           type="text"
           name="title"
-          ref={titleRef}
+          defaultValue={`${oldPost ? oldPost.title : ""}`}
           className="w-full p-2 outline-none rounded-lg text-black"
           placeholder="title..."
         />
@@ -70,13 +66,18 @@ const WritePost = () => {
             }}
             theme="snow"
             name="description"
+            placeholder="Write what you thinking....."
+            defaultValue={`${oldPost ? oldPost.description : ""}`}
+            onChange={(newText, delta, source, editor) =>
+              (descriptionRef.current = editor.getText())
+            }
           />
         </div>
         <button
           className="mt-12 font-semibold px-8 py-2 rounded-2xl bg-white text-black"
           type="submit"
         >
-          {buttonText}
+          {`${oldPost ? "Update" : "Post"}`}
         </button>
       </form>
       <div className="basis-1/3">
