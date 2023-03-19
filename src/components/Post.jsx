@@ -1,19 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import person from "../assets/avatar.jpg";
 const Post = ({ data }) => {
   return (
-    <div className="flex gap-4 flex-wrap md:flex-nowrap ">
-      <div>
+    <div
+      style={{ height: "530px" }}
+      className="flex flex-col gap-4 flex-wrap max-w-md md:flex-nowrap dark:bg-secondary-dark-bg p-5 rounded-2xl"
+    >
+      <div className="flex gap-4">
         <img
-          className="rounded-2xl max-h-52 ml-auto mr-auto"
-          src={data.img}
-          alt="post"
+          src={person}
+          style={{ maxWidth: "40px" }}
+          className="rounded-full"
+          alt="user"
         />
+        <div>
+          <p>Mohamed Fathi</p>
+          <p>September 14, 2016</p>
+        </div>
+      </div>
+      <div>
+        <img className="rounded-2xl max-h-52" src={data.img} alt="post" />
       </div>
       <div className="flex-1">
-        <h1 className="font-bold text-4xl mb-4 up">{data.title}</h1>
-        <p className="up max-h-24 overflow-hidden" style={{ maxWidth: "80ch" }}>
+        <h1 className="font-bold text-2xl mb-4 up">{data.title}</h1>
+        <p className="up max-h-24 overflow-hidden" style={{ maxWidth: "60ch" }}>
           {data.description}
         </p>
         <button
