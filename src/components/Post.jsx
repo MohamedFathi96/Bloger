@@ -8,7 +8,7 @@ import ModeCommentIcon from "@mui/icons-material/ModeComment";
 import { Tooltip } from "@mui/material";
 const Post = ({ data }) => {
   return (
-    <div className="flex flex-col gap-4 max-w-md dark:bg-secondary-dark-bg p-5 rounded-2xl">
+    <div className="flex flex-col gap-4 max-w-md bg-main-white-bg dark:bg-secondary-dark-bg p-5 rounded-2xl">
       <div className="flex gap-4">
         <img
           src={person}

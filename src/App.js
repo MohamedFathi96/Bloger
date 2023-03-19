@@ -4,8 +4,9 @@ import SignUp from "./pages/SignUp";
 import SideBar from "./components/SideBar";
 import NavBar from "./components/NavBar";
 import PostDetails from "./pages/PostDetails";
+import WidgetsIcon from "@mui/icons-material/Widgets";
 import Alert from "@mui/material/Alert";
-import { AlertTitle, Fade } from "@mui/material";
+import { AlertTitle, Fade, Tooltip } from "@mui/material";
 import WritePost from "./pages/WritePost";
 import {
   createBrowserRouter,
@@ -18,6 +19,7 @@ import Home from "./pages/Home";
 
 const Layout = () => {
   // const message = useLocation().state;
+  const { setActiveMenu } = useAuthContext();
   return (
     <>
       <SideBar />
@@ -60,7 +62,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { mode } = useAuthContext();
+  const { mode, setActiveMenu } = useAuthContext();
   return (
     <div className={`${mode}`}>
       <div className="fixed top-2 left-2 dark:text-white text-xl z-20 sm:before:content-['sm'] md:before:content-['md'] lg:before:content-['lg'] xl:b sm:before:content-['sm']efore:content-['xl'] 2xl:before:content-['2xl']"></div>
@@ -83,6 +85,11 @@ function App() {
         </Alert>
       )} */}
       {/* <MouseCanvas /> */}
+      <div className="fixed bottom-2 right-2 dark:text-white md:hidden block cursor-pointer p-2 rounded-full bg-gray-500">
+        <Tooltip title="Menu">
+          <WidgetsIcon />
+        </Tooltip>
+      </div>
       <RouterProvider router={router} />
     </div>
   );

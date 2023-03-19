@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setcurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("dark");
+  const [activeMenu, setActiveMenu] = useState(true);
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -31,6 +32,8 @@ export const AuthProvider = ({ children }) => {
     logOut,
     mode,
     setMode,
+    activeMenu,
+    setActiveMenu,
   };
 
   useEffect(() => {

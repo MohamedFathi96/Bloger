@@ -24,7 +24,7 @@ const SideBar = () => {
     });
   };
   return (
-    <div className="fixed transition-all py-5 pb-9 w-0 md:w-56 left-0 top-0 border-r-gray-700 right-shadow h-screen dark:text-white dark:bg-main-dark-bg flex flex-col items-center">
+    <div className="fixed transition-all py-5 pb-9 w-0 overflow-hidden md:w-56 left-0 top-0 border-r-gray-700 right-shadow h-screen dark:text-white dark:bg-main-dark-bg flex flex-col items-center">
       {/* -------------------First Element-------------------  */}
       <div className="text-center flex flex-col items-center">
         <div>

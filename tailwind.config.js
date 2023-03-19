@@ -12,7 +12,7 @@ module.exports = {
         "secondary-dark-bg": "#1e1e1e",
         "third-dark-bg": "#1a2027",
         "accent-yellow": "#fff37a",
-        "accent-gray": "#dcdcdc",
+        "main-white-bg": "#e7ebf0",
         "light-gray": "#F7F7F7",
         "half-transparent": "rgba(0, 0, 0, 0.5)",
       },
