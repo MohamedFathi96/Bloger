@@ -1,4 +1,11 @@
-import { getDocs, limit, onSnapshot, query, where } from "firebase/firestore";
+import {
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useEffect } from "react";
 import Post from "../components/Post";
 import { useDatabaseContext } from "../context/DatabaseContext";
@@ -8,7 +15,7 @@ const Home = () => {
   const { postsRef, posts, setposts } = useDatabaseContext();
   const { category } = useParams();
   useEffect(() => {
-    const postQuery = query(postsRef, limit(10));
+    const postQuery = query(postsRef, limit(10), orderBy("createdAt", "desc"));
     onSnapshot(postQuery, (snapshot) => {
       const articles = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -20,8 +27,13 @@ const Home = () => {
   }, []);
   useEffect(() => {
     const postQuery = category
-      ? query(postsRef, where("category", "==", category), limit(10))
-      : query(postsRef, limit(10));
+      ? query(
+          postsRef,
+          where("category", "==", category),
+          limit(10),
+          orderBy("createdAt", "desc")
+        )
+      : query(postsRef, limit(10), orderBy("createdAt", "desc"));
     getDocs(postQuery).then((snapshot) => {
       const articles = snapshot.docs.map((doc) => ({
         id: doc.id,

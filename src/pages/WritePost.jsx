@@ -1,5 +1,5 @@
-import { addDoc, doc, updateDoc } from "firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import { addDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import React, { useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,9 +17,10 @@ const WritePost = () => {
     if (!oldPost) {
       addDoc(postsRef, {
         title: data.get("title"),
+        createdAt: serverTimestamp(),
         description: descriptionRef.current,
         category: data.get("category"),
-        img: "https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        // img: "https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       })
         .then((params) => {
           const state = {
@@ -34,8 +35,9 @@ const WritePost = () => {
       updateDoc(docRef, {
         title: data.get("title"),
         description: descriptionRef.current,
+        createdAt: serverTimestamp(),
         category: data.get("category"),
-        img: "https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        // img: "https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       }).then(() => {
         const state = {
           title: "Your post has been updated",
