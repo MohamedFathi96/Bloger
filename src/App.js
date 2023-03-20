@@ -8,6 +8,8 @@ import WidgetsIcon from "@mui/icons-material/Widgets";
 import Alert from "@mui/material/Alert";
 import { AlertTitle, Fade, Tooltip } from "@mui/material";
 import WritePost from "./pages/WritePost";
+import UserPosts from "./pages/UserPosts";
+import UserFavorites from "./pages/UserFavorites";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -16,6 +18,7 @@ import {
 } from "react-router-dom";
 import { useAuthContext } from "./context/AuthContext";
 import Home from "./pages/Home";
+import { useEffect } from "react";
 
 const Layout = () => {
   // const message = useLocation().state;
@@ -49,8 +52,17 @@ const router = createBrowserRouter([
         path: "/:category",
         element: <Home />,
       },
+      {
+        path: "/user/posts",
+        element: <UserPosts />,
+      },
+      {
+        path: "/user/favorites",
+        element: <UserFavorites />,
+      },
     ],
   },
+
   {
     path: "/signup",
     element: <SignUp />,
@@ -63,6 +75,17 @@ const router = createBrowserRouter([
 
 function App() {
   const { mode, setActiveMenu } = useAuthContext();
+
+  // useEffect(() => {
+  //   const modals = document.querySelectorAll(".modal");
+  //   const closeModal = () => {
+  //     if (document.body.contains(".modal")) console.log("test");
+  //   };
+  //   document.body.addEventListener("click", closeModal);
+  //   return () => {
+  //     document.body.removeEventListener("click", closeModal);
+  //   };
+  // }, []);
   return (
     <div className={`${mode}`}>
       <div className="fixed top-2 left-2 dark:text-white text-xl z-20 sm:before:content-['sm'] md:before:content-['md'] lg:before:content-['lg'] xl:b sm:before:content-['sm']efore:content-['xl'] 2xl:before:content-['2xl']"></div>

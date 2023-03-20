@@ -32,6 +32,10 @@ div:has(> .active) {
   position: relative;
   z-index: 10;
 }
+.modal::backdrop {
+  background-color: #20434f;
+  opacity: 0.6;
+}
 .right-shadow {
   box-shadow: 3px 0 15px rgb(80, 68, 68);
 }

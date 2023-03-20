@@ -13,13 +13,16 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Alert } from "@mui/material";
 import Grow from "@mui/material/Grow";
+import { useDatabaseContext } from "../context/DatabaseContext";
 
 import { useAuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 
 export default function SignUp() {
   const { signUp } = useAuthContext();
+  const { database } = useDatabaseContext();
   const [passwordErr, setPasswordErr] = useState(false);
   const [emailErr, setemailErr] = useState(false);
   const [alertErr, setAlertErr] = useState(false);
@@ -40,7 +43,6 @@ export default function SignUp() {
       data.get("password") !== data.get("passwordConfirm") ||
       data.get("password").length < 6
     ) {
-      console.log("sfd");
       setPasswordErr(true);
       return;
     } else if (!emailRegExp.test(data.get("email"))) {
@@ -53,6 +55,10 @@ export default function SignUp() {
       const { user } = await signUp(data.get("email"), data.get("password"));
       await updateProfile(user, {
         displayName: `${data.get("firstName")} ${data.get("lastName")}`,
+      });
+      await addDoc(collection(database, "UsersInfo"), {
+        userId: user.uid,
+        favorites: [],
       });
       const state = {
         title: "Welcome, to the club",

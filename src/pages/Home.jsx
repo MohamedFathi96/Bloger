@@ -45,8 +45,8 @@ const Home = () => {
   }, [category]);
   return (
     <div>
-      <div className="md:ml-56 dark:text-white min-h-screen mb-4 dark:bg-main-dark-bg">
-        <div className="flex flex-wrap  gap-4 justify-center">
+      <div className="md:ml-56 dark:text-white min-h-screen pb-4 dark:bg-main-dark-bg px-2 sm:px-0">
+        <div className="flex flex-wrap gap-4 justify-center">
           {posts.map((postData) => (
             <Post key={postData.id} data={postData} />
           ))}

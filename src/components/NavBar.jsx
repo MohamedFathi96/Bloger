@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Tooltip from "@mui/material/Tooltip";
 import { BsSearchHeart, BsPatchPlus } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import StarPurple500Icon from "@mui/icons-material/StarPurple500";
 import BadgeIcon from "@mui/icons-material/Badge";
-import { getDocs, where, query } from "firebase/firestore";
+// import { getDocs, where, query } from "firebase/firestore";
 import { useAuthContext } from "../context/AuthContext";
 
 const NavBar = () => {
-  const { searchValue, setsearchValue } = useDatabaseContext();
   const { currentUser } = useAuthContext();
+  const navigate = useNavigate();
 
   // function searchPosts(e) {
   //   setsearchValue(e.target.value);
@@ -47,8 +47,6 @@ const NavBar = () => {
           className="px-3 outline-none grow dark:bg-main-dark-bg"
           placeholder="Search Something..."
           type="text"
-          value={searchValue}
-          onChange={(e) => setsearchValue(e.target.value)}
         />
       </div>
       <div>
@@ -60,31 +58,41 @@ const NavBar = () => {
           </Tooltip>
         )}
 
-        <div className="flex gap-2">
-          <Tooltip title="My Posts">
-            <button>
-              <BadgeIcon sx={{ fontSize: "1.8rem" }} />
-            </button>
-          </Tooltip>
-          <Tooltip title="Favorites">
-            <button>
-              <StarPurple500Icon sx={{ fontSize: "2.1rem" }} />
-            </button>
-          </Tooltip>
-          <Tooltip title="New Post">
-            <button className="up">
-              <Link state={null} to="/write">
-                <BsPatchPlus
-                  style={{
-                    fontSize: "1.8rem",
-                    verticalAlign: "middle",
-                    display: "inline-block",
-                  }}
-                />
-              </Link>
-            </button>
-          </Tooltip>
-        </div>
+        {currentUser && (
+          <>
+            <div className="flex gap-1">
+              <Tooltip title="My Posts">
+                <button
+                  onClick={() => navigate("/user/posts")}
+                  className="hover:bg-gray-600 p-1 rounded-full"
+                >
+                  <BadgeIcon sx={{ fontSize: "1.8rem" }} />
+                </button>
+              </Tooltip>
+              <Tooltip title="Favorites">
+                <button
+                  onClick={() => navigate("/user/favorites")}
+                  className="hover:bg-gray-600 p-1 rounded-full"
+                >
+                  <StarPurple500Icon sx={{ fontSize: "2.1rem" }} />
+                </button>
+              </Tooltip>
+              <Tooltip title="New Post">
+                <button className="up hover:bg-gray-600 p-1 rounded-full">
+                  <Link state={null} to="/write">
+                    <BsPatchPlus
+                      style={{
+                        fontSize: "1.8rem",
+                        verticalAlign: "middle",
+                        display: "inline-block",
+                      }}
+                    />
+                  </Link>
+                </button>
+              </Tooltip>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

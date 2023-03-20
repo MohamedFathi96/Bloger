@@ -8,8 +8,6 @@ const MouseCanvas = () => {
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
-    console.log("test");
-
     const particles = [];
     let hue = 0;
 
