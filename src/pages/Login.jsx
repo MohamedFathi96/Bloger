@@ -37,7 +37,7 @@ const Form = (props) => {
     }
   }
   return (
-    <div>
+    <div className="up">
       <FormInput
         description="Email"
         placeholder="Enter your email"
@@ -50,10 +50,10 @@ const Form = (props) => {
         type="password"
         elemref={passwordRef}
       />
-      <div>
+      <div className="up">
         <FormButton clickFunc={handleLogin} type="submit" title="Log In" />
       </div>
-      <div>
+      <div className="up">
         <FormButton
           type="button"
           clickFunc={() => {

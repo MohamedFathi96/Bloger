@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setcurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState("dark");
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [activeMenu, setActiveMenu] = useState(true);
 
   function signUp(email, password) {
@@ -34,6 +35,8 @@ export const AuthProvider = ({ children }) => {
     setMode,
     activeMenu,
     setActiveMenu,
+    screenSize,
+    setScreenSize,
   };
 
   useEffect(() => {

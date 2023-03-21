@@ -7,11 +7,13 @@ import SecondaryPost from "../components/SecondaryPost";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import { Tooltip } from "@mui/material";
 import { deleteDoc, doc } from "firebase/firestore";
+import { useAuthContext } from "../context/AuthContext";
 
 const PostDetails = () => {
   const post = useLocation().state;
   const navigate = useNavigate();
   const { database } = useDatabaseContext();
+  const { currentUser } = useAuthContext();
   const docRef = doc(database, "Posts", post.id);
 
   function deletePost() {
@@ -37,18 +39,21 @@ const PostDetails = () => {
             <p>John</p>
             <p>Posted 2 days age</p>
           </div>
-          <div className="flex gap-3 items-center">
-            <Tooltip title="Edit">
-              <Link state={post} to="/write">
-                <BiCalendarEdit style={{ fontSize: "1.3rem" }} />
-              </Link>
-            </Tooltip>
-            <Tooltip title="Delete">
-              <button onClick={deletePost}>
-                <AiOutlineDelete style={{ fontSize: "1.3rem" }} />
-              </button>
-            </Tooltip>
-          </div>
+
+          {currentUser && currentUser.uid === post.creatorId && (
+            <div className="flex gap-3 items-center up">
+              <Tooltip title="Edit">
+                <Link state={post} to="/write">
+                  <BiCalendarEdit style={{ fontSize: "1.3rem" }} />
+                </Link>
+              </Tooltip>
+              <Tooltip title="Delete">
+                <button onClick={deletePost}>
+                  <AiOutlineDelete style={{ fontSize: "1.3rem" }} />
+                </button>
+              </Tooltip>
+            </div>
+          )}
         </div>
         <h1 className="font-bold text-3xl mb-5">{post.title}</h1>
         <p style={{ maxWidth: "80ch" }}>{post.description}</p>

@@ -65,7 +65,7 @@ const WritePost = () => {
             type="text"
             name="title"
             defaultValue={`${oldPost ? oldPost.title : ""}`}
-            className="w-full p-2 outline-none rounded-lg text-black"
+            className="w-full p-2 outline-none rounded-lg text-black up"
             placeholder="title..."
           />
           <div className="h-72 mt-4 rounded-lg overflow-scroll">
@@ -87,7 +87,7 @@ const WritePost = () => {
           </div>
         </form>
         <div className="basis-3/12 flex gap-7 lg:flex-col  items-start">
-          <div className="flex flex-col gap-2 dark:bg-secondary-dark-bg px-6 py-4 rounded-3xl">
+          <div className="up flex flex-col gap-2 bg-main-white-bg dark:bg-secondary-dark-bg px-6 py-4 rounded-3xl">
             <h2 className="text-2xl">Publish</h2>
             <p>
               <span>Status: </span>Draft
@@ -110,9 +110,9 @@ const WritePost = () => {
               />
             </p>
           </div>
-          <div className="flex flex-col gap-3 mt-4 dark:bg-secondary-dark-bg px-6 py-4 rounded-3xl">
+          <div className="flex flex-col gap-3 mt-4 bg-main-white-bg dark:bg-secondary-dark-bg px-6 py-4 rounded-3xl">
             <h2 className="text-2xl">Category</h2>
-            <div className="flex lg:flex-col gap-2">
+            <div className="flex flex-col gap-2 up">
               <div>
                 <input
                   form="postForm"
@@ -178,7 +178,7 @@ const WritePost = () => {
         </div>
       </div>
       <button
-        className="mt-6 font-semibold px-8 py-2 rounded-2xl bg-white text-black"
+        className="up mt-6 font-semibold px-8 py-2 rounded-2xl bg-slate-400 dark:bg-white text-black"
         type="submit"
         form="postForm"
       >

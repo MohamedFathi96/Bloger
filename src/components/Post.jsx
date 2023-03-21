@@ -2,8 +2,6 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import person from "../assets/avatar.jpg";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ModeCommentIcon from "@mui/icons-material/ModeComment";
 import PublishIcon from "@mui/icons-material/Publish";
 import Comment from "./Comment";
@@ -13,7 +11,6 @@ import {
   arrayUnion,
   collection,
   doc,
-  getDoc,
   getDocs,
   query,
   updateDoc,
@@ -85,16 +82,20 @@ const Post = ({ data }) => {
           alt="user"
         />
         <div>
-          <p>Mohamed Fathi</p>
-          <p>September 14, 2016</p>
+          <p>{data.creatorName || "Mohamed Fathi"}</p>
+          <p>{`${
+            data.createdAt
+              ? new Date(data.createdAt.seconds).toDateString()
+              : new Date().toDateString()
+          }`}</p>
         </div>
       </div>
       {/* <div> */}
       <img className="rounded-2xl max-h-52" src={data.img} alt="post" />
       {/* </div> */}
       <div className="flex flex-col gap-5 flex-grow">
-        <h1 className="font-bold text-2xl up">{data.title}</h1>
-        <p className="up max-h-24 overflow-hidden">{data.description}</p>
+        <h1 className="font-bold main-header">{data.title}</h1>
+        <p className="max-h-24 overflow-hidden">{data.description}</p>
         <div className="flex justify-between mt-auto">
           <button
             type="button"
@@ -105,20 +106,10 @@ const Post = ({ data }) => {
             </Link>
           </button>
 
-          <div className="flex gap-2 mt-auto">
+          <div className="flex up gap-2 mt-auto">
             <Tooltip title="Add To Favorites">
               <button onClick={addToFavorites}>
                 <FavoriteIcon />
-              </button>
-            </Tooltip>
-            <Tooltip title="Dislike">
-              <button>
-                <ThumbDownIcon />
-              </button>
-            </Tooltip>
-            <Tooltip title="Like">
-              <button>
-                <ThumbUpIcon />
               </button>
             </Tooltip>
             <Tooltip title="Add a comment">
@@ -151,7 +142,7 @@ const Post = ({ data }) => {
         <form onSubmit={submitComment} method="dialog">
           <Tooltip title="Submit">
             <button
-              className="float-right p-2 hover:bg-gray-500 rounded-full"
+              className="float-right p-2 hover:bg-gray-500 rounded-full block mt-10"
               type="submit"
             >
               <PublishIcon className="text-white" />

@@ -10,6 +10,7 @@ import { AlertTitle, Fade, Tooltip } from "@mui/material";
 import WritePost from "./pages/WritePost";
 import UserPosts from "./pages/UserPosts";
 import UserFavorites from "./pages/UserFavorites";
+import MouseCanvas from "./components/MouseCanvas";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -74,18 +75,14 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { mode, setActiveMenu } = useAuthContext();
+  const { mode, setActiveMenu, screenSize, setScreenSize } = useAuthContext();
 
-  // useEffect(() => {
-  //   const modals = document.querySelectorAll(".modal");
-  //   const closeModal = () => {
-  //     if (document.body.contains(".modal")) console.log("test");
-  //   };
-  //   document.body.addEventListener("click", closeModal);
-  //   return () => {
-  //     document.body.removeEventListener("click", closeModal);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className={`${mode}`}>
       <div className="fixed top-2 left-2 dark:text-white text-xl z-20 sm:before:content-['sm'] md:before:content-['md'] lg:before:content-['lg'] xl:b sm:before:content-['sm']efore:content-['xl'] 2xl:before:content-['2xl']"></div>
@@ -107,8 +104,11 @@ function App() {
           {message.title}
         </Alert>
       )} */}
-      {/* <MouseCanvas /> */}
-      <div className="fixed bottom-2 right-2 dark:text-white md:hidden block cursor-pointer p-2 rounded-full bg-gray-500">
+      <MouseCanvas />
+      <div
+        onClick={() => setActiveMenu((prev) => !prev)}
+        className="fixed bottom-2 right-2 text-white md:hidden block cursor-pointer p-2 rounded-full bg-gray-500"
+      >
         <Tooltip title="Menu">
           <WidgetsIcon />
         </Tooltip>
